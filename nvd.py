@@ -10,6 +10,7 @@ import glob
 import json
 import os
 import subprocess
+import time
 import urllib.request
 import zipfile
 
@@ -20,7 +21,10 @@ def main():
     print('[nvd.py] Gathering latest vulnerability data ......')
     year = datetime.date.today().year
     newestfile = 'nvdcve-1.0-' + str(year) + '.json'
-    os.remove('NVD/' + newestfile)
+    try:
+        os.remove('NVD/' + newestfile)
+    except FileNotFoundError:
+        pass
     url = 'https://nvd.nist.gov/feeds/json/cve/1.0/' + newestfile + '.zip'
     saveas = 'tmp.zip'
     urllib.request.urlretrieve(url, saveas)
@@ -56,7 +60,9 @@ def main():
             f.write(pload)
     print('[nvd.py] Pushing files into GitHub Remote Repository ......')
     subprocess.Popen(r'git add *', stdout=subprocess.PIPE, shell=True)
+    time.sleep(5)
     subprocess.Popen(r'git commit -m "Daily Data Update"', stdout=subprocess.PIPE, shell=True)
+    time.sleep(5)
     subprocess.Popen(r'git push origin master', stdout=subprocess.PIPE, shell=True)
 
 
