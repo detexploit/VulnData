@@ -41,6 +41,9 @@ def main():
             parser = html_parser()
             for line in tmp:
                 parser.feed(line)
+            for vid in vulnid:
+                url = 'https://jvndb.jvn.jp/myjvn?method=getVulnDetailInfo&feed=hnd&vulnId=' + vid
+                a
 
 
 

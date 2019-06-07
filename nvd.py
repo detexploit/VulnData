@@ -47,6 +47,7 @@ def main():
                             app_version = i['version_value']
                             pd[app_name] = app_version
         product_dict[nowyear] = pd
+    os.remove('NVD/' + newestfile)
     year_list = range(2002, year + 1)
     print('[nvd.py] Writing the re-formatted data to ./NVD-DETEXPLOIT/??.detexploit ......')
     for pdata in product_dict:
@@ -60,9 +61,9 @@ def main():
             f.write(pload)
     print('[nvd.py] Pushing files into GitHub Remote Repository ......')
     subprocess.Popen(r'git add *', stdout=subprocess.PIPE, shell=True)
-    time.sleep(5)
+    time.sleep(30)
     subprocess.Popen(r'git commit -m "Daily Data Update"', stdout=subprocess.PIPE, shell=True)
-    time.sleep(5)
+    time.sleep(30)
     subprocess.Popen(r'git push origin master', stdout=subprocess.PIPE, shell=True)
 
 
